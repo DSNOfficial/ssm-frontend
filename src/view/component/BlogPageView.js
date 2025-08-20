@@ -61,6 +61,8 @@ const BlogPageView = () => {
                 >
                   
                   <h3 style={colorFont}>{item.title}</h3>
+                  <h3 style={colorFont}>តម្លៃ : {item.etitle}</h3>
+
                   {/* <p style={colorFont}> {item.description}</p> */}
                 {/* <Meta style={colorFont} title={item.Name || "No Title"} description={item.Description || "No Description"} />
                   */}

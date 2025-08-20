@@ -14,6 +14,9 @@ const containerStyle = {
   backgroundColor: 'white',
   borderRadius: '12px',
 };
+const colorFont={
+  color:"#343293",
+}
 
 const BlogDetailView = () => {
   const { id } = useParams();
@@ -102,6 +105,7 @@ const BlogDetailView = () => {
                   }}>
                     {blog.title} | Mental Health Clinic
                   </Title>
+                      <h3 style={colorFont}>តម្លៃ : {blog.etitle}</h3>
 
                   <Divider />
 
