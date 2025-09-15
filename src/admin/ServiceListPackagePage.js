@@ -4,6 +4,8 @@ import { Table, Button, Space, Modal, Input, Form, Select, message, Tag, DatePic
 import MainPage from "../component/page/MainPage";
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import "../component/assets/css/TextEditor.css";
+import { PlusOutlined } from "@ant-design/icons";
+import ReactQuill from 'react-quill';
 
 const ServiceListPackagePage = () => {
 
@@ -46,7 +48,9 @@ const ServiceListPackagePage = () => {
             id: item.id,
             title: item.title,
             description: item.description,
-            status: item.status
+            status: item.status,
+            content: item.content
+
 
         })
         setOpen(true)
@@ -83,6 +87,7 @@ const ServiceListPackagePage = () => {
             id: id,
             title: item.title,
             description: item.description,
+            content: item.content,
             status: item.status + ""
 
         }
@@ -131,7 +136,8 @@ const ServiceListPackagePage = () => {
 
                 </Space>
 
-                <Button onClick={() => { setOpen(true) }} type="primary">បន្ថែមថ្មី</Button>
+                <Button icon={<PlusOutlined />} onClick={() => { setOpen(true) }} type="primary">បន្ថែមថ្មី</Button>
+               
             </div>
             <hr />
             <Table
@@ -161,14 +167,21 @@ const ServiceListPackagePage = () => {
                         dataIndex: "description",
 
                     },
-                    {
-                        key: "status",
-                        title: "Active or Inactive",
-                        dataIndex: "status",
+                  
 
-                        render: (value) => (value === 1 ? <Tag color="green" >Actived</Tag> : <Tag color="red">InActived</Tag>)
-
+                     {
+                        key: "content",
+                        title: "ពិពនាលម្អិច",
+                        dataIndex: "content",
+                        ellipsis: true,
+                        width: '20',
+                        render: (value) => {
+                            if (typeof value === 'string') {
+                                return <span dangerouslySetInnerHTML={{ __html: value }} />;
+                            }
+                        }
                     },
+                    
 
                     {
                         key: "Action",
@@ -184,7 +197,7 @@ const ServiceListPackagePage = () => {
                 ]}
             />
             <Modal
-                title={(formCat.getFieldValue("id") == null) ? "កំណត់តួនាទី | បន្ថែមថ្មី" : "កំណត់តួនាទី | កែប្រែ"}
+                title={(formCat.getFieldValue("id") == null) ? "សេវាកម្មមន្ទីរពិសោធន៍ | បន្ថែមថ្មី" : "សេវាកម្មមន្ទីរពិសោធន៍ | កែប្រែ"}
                 open={open}
                 onCancel={(onCloseModule)}
                 okText="Save"
@@ -234,13 +247,40 @@ const ServiceListPackagePage = () => {
                                 <Input style={fontSize} placeholder="ឈ្មោះខ្មែរ" />
 
                             </Form.Item>
+                           
+
+                             <Form.Item
+                                                        label="មាតិកា"
+                                                        name="content"
+                                                        rules={[
+                                                            {
+                                                                required: true,
+                                                                message: "សូមបំពេញមាតិកា!",
+                                                            },
+                                                        ]}
+                                                    >
+                                                        <ReactQuill
+                                                            theme="snow"
+                                                            style={{ height: 500 }}
+                                                            onChange={(value) => formCat.setFieldsValue({ content: value })}
+                                                            value={formCat.getFieldValue("content")}
+                                                        />
+                                                    </Form.Item>
+
 
                         </Col>
 
+                     
+
+
                     </Row>
+                   <br/>
+                   <br/>
+                
+                    
                     <Form.Item style={{ textAlign: "right" }}>
                         <Space>
-                            <Button onClick={onCloseModule}>Cancel</Button>
+                            <Button onClick={onCloseModule}>ចាកចេញ</Button>
                             <Button type="primary" htmlType="submit">{formCat.getFieldValue("id") == null ? "រក្សាទុក" : "កែប្រែ"}</Button>
                         </Space>
                     </Form.Item>

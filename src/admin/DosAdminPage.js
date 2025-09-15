@@ -8,6 +8,7 @@ import { CloseOutlined, UploadOutlined, EyeOutlined } from "@ant-design/icons";
 import { Worker, Viewer } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import { pdfjs } from 'react-pdf';
+import ReactQuill from 'react-quill';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
@@ -165,8 +166,20 @@ const DosAdminPage = () => {
                 pagination={{ pageSize: 4 }}
                 columns={[
                     { key: "No", title: "ល.រ", render: (_, __, index) => index + 1 },
-                    { key: "title", title: "ចំណង់ជើង", dataIndex: "title" },
-                    { key: "description", title: "មាតិកា", dataIndex: "description" },
+                    { key: "title", title: "ចំណង់ជើង", dataIndex: "title" } ,{
+                        key: "description",
+                        title: "មាតិកា",
+                        dataIndex: "description",
+                        ellipsis: true,
+                        width: '20',
+                        render: (value) => {
+                            if (typeof value === 'string') {
+                                return <span dangerouslySetInnerHTML={{ __html: value }} />;
+                            }
+                        }
+                    },
+
+
                     {
                         key: "file_path", title: "ឯកសារ", dataIndex: "file_path", render: (value) => (
                             <Button icon={<EyeOutlined />} onClick={() => window.open(Config.image_path + value, '_blank')}>
@@ -202,13 +215,26 @@ const DosAdminPage = () => {
                         <Input style={fontSize} placeholder="ចំណង់ជើង" />
                     </Form.Item>
 
+                 
+
+                    
                     <Form.Item
-                        label="មាតិកា"
-                        name="description"
-                        rules={[{ required: true, message: "សូមបំពេញមាតិកា!" }]}
-                    >
-                        <TextArea style={fontSize} placeholder="មាតិកា" rows={9} />
-                    </Form.Item>
+                                                                            label="មាតិកា"
+                                                                            name="description"
+                                                                            rules={[
+                                                                                {
+                                                                                    required: true,
+                                                                                    message: "សូមបំពេញមាតិកា!",
+                                                                                },
+                                                                            ]}
+                                                                        >
+                                                                            <ReactQuill
+                                                                                theme="snow"
+                                                                                style={{ height: 500 }}
+                                                                                onChange={(value) => formCat.setFieldsValue({ description: value })}
+                                                                                value={formCat.getFieldValue("description")}
+                                                                            />
+                   </Form.Item>
 
                     <Form.Item label="ឯកសារ PDF">
                         <div style={{ position: 'relative', width: '100%' }}>

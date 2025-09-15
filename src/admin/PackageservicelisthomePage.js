@@ -23,7 +23,7 @@ import { Config, isEmptyOrNull } from "../config/helper";
 
 const { TextArea } = Input;
 
-const FootsSocailMediaPage = () => {
+const PackageservicelisthomePage = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -59,7 +59,7 @@ const FootsSocailMediaPage = () => {
     setLoading(true);
     try {
       const param = { txt_search: filterRef.current.txt_search };
-      const res = await request("footsocialmedia/getList", "get", param);
+      const res = await request("packageservicelisthome/getList", "get", param);
       if (res) setList(res.list);
     } catch (error) {
       message.error("Failed to fetch the list");
@@ -84,10 +84,7 @@ const FootsSocailMediaPage = () => {
     }, 1000);
   };
 
-  /** ===========================
-   *  File Handlers
-   *  ===========================
-   */
+ 
   const handleChangeFile = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -143,10 +140,7 @@ const FootsSocailMediaPage = () => {
     return `ថ្ងៃទី${day} ខែ${month} ${year}`;
   };
 
-  /** ===========================
-   *  Form Submit
-   *  ===========================
-   */
+  
   const onFinish = async (item) => {
     setModalLoading(true);
     const id = formCat.getFieldValue("id");
@@ -157,21 +151,12 @@ const FootsSocailMediaPage = () => {
     form.append("title2", item.title2);
     form.append("title3", item.title3);
     form.append("title4", item.title4);
-    form.append("email", item.email);
-    form.append("phone", item.phone);
-    form.append("facebookLink", item.facebookLink);
-    form.append("googleLink", item.googleLink);
-    form.append("copyRight", item.copyRight);
-    form.append("description", item.description);
-
-    form.append("PreImage", formCat.getFieldValue("image"));
-    if (fileSelected) {
-      form.append("image", fileSelected);
-    }
-
+    form.append("list1", item.list1);
+    form.append("list2", item.list2);
+   
     const method = id == null ? "post" : "put";
     const url =
-      id == null ? "footsocialmedia/create" : "footsocialmedia/update";
+      id == null ? "packageservicelisthome/create" : "packageservicelisthome/update";
 
     try {
       const res = await request(url, method, form);
@@ -192,10 +177,7 @@ const FootsSocailMediaPage = () => {
     }
   };
 
-  /** ===========================
-   *  View Modal
-   *  ===========================
-   */
+
   const handleView = (item) => {
     setViewItem(item);
     setIsViewModalOpen(true);
@@ -326,8 +308,8 @@ const FootsSocailMediaPage = () => {
       <Modal
         title={
           isEditMode
-            ? "កែប្រែ | បណ្តាញសង្គម"
-            : "បន្ថែម | បណ្តាញសង្គម"
+            ? "កែប្រែ | List Package Service Home"
+            : "បន្ថែម | List Package Service Home"
         }
         open={open}
         maskClosable={false}
@@ -365,93 +347,20 @@ const FootsSocailMediaPage = () => {
                 </Form.Item>
               </Col>
             </Row>
+       
             <Row gutter={16}>
               <Col span={12}>
-                <Form.Item
-                  label="អ៊ីមែល"
-                  name="email"
-                  rules={[{ type: "email", message: "Email មិនត្រឹមត្រូវ!" }]}
-                >
-                  <Input placeholder="Email" />
+                <Form.Item label="list1" name="list1">
+                  <Input placeholder="list1 URL" />
                 </Form.Item>
               </Col>
               <Col span={12}>
-                <Form.Item label="ទូរស័ព្ទ" name="phone">
-                  <Input placeholder="Phone" />
+                <Form.Item label="list2" name="list12">
+                  <Input placeholder="list2" />
                 </Form.Item>
               </Col>
             </Row>
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item label="Facebook Link" name="facebookLink">
-                  <Input placeholder="Facebook URL" />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label="Google Link" name="googleLink">
-                  <Input placeholder="Google URL" />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24}>
-                <Form.Item label="Copy Right" name="copyRight">
-                  <Input placeholder="Copy Right" />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24}>
-                <Form.Item
-                  label="មាតិកា"
-                  name="description"
-                  rules={[{ required: true, message: "សូមបំពេញមាតិកា!" }]}
-                >
-                  <TextArea rows={4} placeholder="មាតិកា" />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Form.Item label="Upload រូបភាព">
-              <div style={{ width: "90%", position: "relative" }}>
-                {!isEmptyOrNull(filePreview) && (
-                  <CloseOutlined
-                    onClick={onRemoveFileSelected}
-                    style={{
-                      color: "red",
-                      fontSize: 18,
-                      position: "absolute",
-                      top: -6,
-                      right: -6,
-                      backgroundColor: "#EEE",
-                      padding: 3,
-                      cursor: "pointer",
-                    }}
-                  />
-                )}
-                {!isEmptyOrNull(filePreview) ? (
-                  <img src={filePreview} style={{ width: "90%" }} alt="" />
-                ) : (
-                  <div style={{ width: 70, height: 70, backgroundColor: "#EEE" }} />
-                )}
-              </div>
-              <input
-                ref={fileRef}
-                type="file"
-                onChange={handleChangeFile}
-                id="selectedFile"
-                style={{ display: "none" }}
-              />
-              <Button
-                icon={<UploadOutlined />}
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById("selectedFile").click();
-                }}
-                style={{ marginTop: 10, width: "50%" }}
-              >
-                Browse...
-              </Button>
-            </Form.Item>
+          
             <Form.Item style={{ textAlign: "right" }}>
               <Space>
                 <Button onClick={onCloseModule}>Cancel</Button>
@@ -519,4 +428,4 @@ const FootsSocailMediaPage = () => {
   );
 };
 
-export default FootsSocailMediaPage;
+export default PackageservicelisthomePage;

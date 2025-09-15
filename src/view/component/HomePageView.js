@@ -18,6 +18,9 @@ import ImageShowPageView from './ImageShowPageView';
 import ImageShowWithNewsView from './ImageShowWithNewsView';
 import ServiceProviceView from './ServiceProviceView';
 import ServiceLaborView from './ServiceLaborView';
+import ServiceListView from './ServiceListView';
+import VisionDetailPage from './VisionDetailPage';
+import VisionDetailViewPage from './VisionDetailViewPage';
 
 const { Content } = Layout;
 
@@ -96,12 +99,25 @@ const HomePageView = () => {
       <div style={containerStyle}>
         <br />
         <br />
-
-<ServiceLaborView/>
-
-        
+    <Tabs
+          defaultActiveKey="1"
+          className="custom-tabs"
+          items={[
+            {
+              label: (
+                <span style={{ color: numTabs > 2 ? 'var(--tab-color2)' : 'var(--tab-color1)' }}>
+                  អំពីមន្ទីរពិសោធន៍ <RightOutlined />
+                </span>
+              ),
+              key: '1',
+              
+            },
+          ]}
+        />
+    
+      <VisionDetailViewPage/>     
+      <br></br>
        {/* <ImageShowWithNewsView/> */}
-
         <Tabs
           defaultActiveKey="1"
           className="custom-tabs"
@@ -117,7 +133,8 @@ const HomePageView = () => {
             },
           ]}
         />
-        <ServiceProviceView/>
+       {/* // <ServiceProviceView/> */}
+        <ServiceListView/>
         <br/>
         <Tabs
           defaultActiveKey="1"
